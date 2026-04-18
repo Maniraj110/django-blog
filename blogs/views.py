@@ -1,18 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 
-from .models import Blog, Category
+from .models import Blog, Category, Comment
 
 # Create your views here.
 def post_by_category(request, category_id):
     blogs = Blog.objects.filter(status = 'Published', category_id = category_id)
-    # try:
-    #     category = Category.objects.get(pk = category_id)
-    # except Category.DoesNotExist:
-    #     pass
-
     category = get_object_or_404(Category, pk = category_id)
     context = {
         'blogs':blogs,
@@ -23,8 +18,18 @@ def post_by_category(request, category_id):
 
 def blogs(request, slug):
     single_blog = get_object_or_404(Blog, slug = slug, status = 'Published')
+    if request.method == 'POST':
+        comment = Comment()
+        comment.user = request.user
+        comment.blog = single_blog
+        comment.comment = request.POST.get('comment')
+        comment.save()
+        return redirect('blogs', slug = slug)
+    
+    comments = Comment.objects.filter(blog = single_blog)
     context = {
-        'single_blog':single_blog
+        'single_blog':single_blog,
+        'comments':comments,
     }
     return render(request, 'blogs.html', context)
 
