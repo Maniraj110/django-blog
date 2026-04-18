@@ -1,4 +1,7 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
 from blogs.models import Category, Blog
 
 class CategoryForm(forms.ModelForm):
@@ -41,4 +44,97 @@ class BlogForm(forms.ModelForm):
             'is_featured': forms.CheckboxInput(attrs={
                 'class': 'w-4 h-4'
             }),
+        }
+
+class AddUserForm(UserCreationForm):
+    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={
+        'class': 'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand',
+        'placeholder': 'Enter email address'
+    }))
+    
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand',
+            'placeholder': 'Enter password'
+        }),
+        label='Password'
+    )
+    
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand',
+            'placeholder': 'Confirm password'
+        }),
+        label='Confirm Password'
+    )
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name', 'is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions', 'password1', 'password2']
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class': 'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand',
+                'placeholder': 'Enter username'
+            }),
+            'first_name': forms.TextInput(attrs={
+                'class': 'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand',
+                'placeholder': 'Enter first name'
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand',
+                'placeholder': 'Enter last name'
+            }),
+            'is_active': forms.CheckboxInput(attrs={
+                'class': 'w-4 h-4'
+            }),
+            'is_staff': forms.CheckboxInput(attrs={
+                'class': 'w-4 h-4'
+            }),
+            'is_superuser': forms.CheckboxInput(attrs={
+                'class': 'w-4 h-4'
+            }),
+            'groups': forms.SelectMultiple(attrs={
+                'class': 'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand'
+            }),
+            'user_permissions': forms.SelectMultiple(attrs={
+                'class': 'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand'
+            })
+        }
+
+class EditUserForm(forms.ModelForm):
+    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={
+        'class': 'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand',
+        'placeholder': 'Enter email address'
+    }))
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name', 'is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions']
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class': 'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand',
+                'placeholder': 'Enter username'
+            }),
+            'first_name': forms.TextInput(attrs={
+                'class': 'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand',
+                'placeholder': 'Enter first name'
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand',
+                'placeholder': 'Enter last name'
+            }),
+            'is_active': forms.CheckboxInput(attrs={
+                'class': 'w-4 h-4'
+            }),
+            'is_staff': forms.CheckboxInput(attrs={
+                'class': 'w-4 h-4'
+            }),
+            'is_superuser': forms.CheckboxInput(attrs={
+                'class': 'w-4 h-4'
+            }),
+            'groups': forms.SelectMultiple(attrs={
+                'class': 'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand'
+            }),
+            'user_permissions': forms.SelectMultiple(attrs={
+                'class': 'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand'
+            })
         }

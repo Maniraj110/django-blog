@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="flex min-h-[calc(100vh-180px)]">
+        {% include 'dashboard/side-bar.html' %}
+        <div class="flex-1 bg-gray-50 p-8 overflow-y-auto">
+            <h1 class="text-3xl font-extrabold text-gray-800 mb-8">Add User</h1>
+            {% if perms.auth.add_user %}
+            <form method="post" action="{% url 'add_user' %}" enctype="multipart/form-data" class="bg-white rounded-xl shadow-sm p-6">
+                {% csrf_token %}
+
+                <!-- First Name Field -->
+                <div class="mb-6">
+                    <label for="{{ form.first_name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.first_name.label }}</label>
+                    {{ form.first_name }}
+                    {% if form.first_name.errors %}
+                        <div class="text-red-500 text-sm mt-1">{{ form.first_name.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                <!-- Last Name Field -->
+                <div class="mb-6">
+                    <label for="{{ form.last_name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.last_name.label }}</label>
+                    {{ form.last_name }}
+                    {% if form.last_name.errors %}
+                        <div class="text-red-500 text-sm mt-1">{{ form.last_name.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Username Field -->
+                <div class="mb-6">
+                    <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.username.label }}</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="text-red-500 text-sm mt-1">{{ form.username.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                <!-- Email Field -->
+                <div class="mb-6">
+                    <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.email.label }}</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <div class="text-red-500 text-sm mt-1">{{ form.email.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="flex justify-between">
+                    <!-- Is Active Field -->
+                    <div class="mb-6 flex items-center gap-4">
+                        <label for="{{ form.is_active.id_for_label }}" class="text-sm font-medium text-gray-700">{{ form.is_active.label }}</label>
+                        {{ form.is_active }}
+                        {% if form.is_active.errors %}
+                            <div class="text-red-500 text-sm mt-1">{{ form.is_active.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Is Staff Field -->
+                    <div class="mb-6 flex items-center gap-4">
+                        <label for="{{ form.is_staff.id_for_label }}" class="text-sm font-medium text-gray-700">{{ form.is_staff.label }}</label>
+                        {{ form.is_staff }}
+                        {% if form.is_staff.errors %}
+                            <div class="text-red-500 text-sm mt-1">{{ form.is_staff.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Is Superuser Field -->
+                    <div class="mb-6 flex items-center gap-4">
+                        <label for="{{ form.is_superuser.id_for_label }}" class="text-sm font-medium text-gray-700">{{ form.is_superuser.label }}</label>
+                        {{ form.is_superuser }}
+                        {% if form.is_superuser.errors %}
+                            <div class="text-red-500 text-sm mt-1">{{ form.is_superuser.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Groups Field -->
+                <div class="mb-6">
+                    <label for="{{ form.groups.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.groups.label }}</label>
+                    {{ form.groups }}
+                    {% if form.groups.errors %}
+                        <div class="text-red-500 text-sm mt-1">{{ form.groups.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Permissions Field -->
+                <div class="mb-6">
+                    <label for="{{ form.user_permissions.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.user_permissions.label }}</label>
+                    {{ form.user_permissions }}
+                    {% if form.user_permissions.errors %}
+                        <div class="text-red-500 text-sm mt-1">{{ form.user_permissions.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Password Field -->
+                <div class="mb-6">
+                    <label for="{{ form.password1.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.password1.label }}</label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                        <div class="text-red-500 text-sm mt-1">{{ form.password1.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div class="mb-6">
+                    <label for="{{ form.password2.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.password2.label }}</label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                        <div class="text-red-500 text-sm mt-1">{{ form.password2.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand-dark transition">Create User</button>
+            </form>
+            {% else %}
+                <p class="text-gray-500">You do not have permission to add users.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
