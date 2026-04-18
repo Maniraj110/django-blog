@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="flex min-h-[calc(100vh-180px)]">
+
+    <!-- Sidebar -->
+    {% include 'dashboard/side-bar.html' %}
+    
+    <!-- main content-->
+     <div class="flex-1 bg-gray-50 p-8 overflow-y-auto">
+        <h1 class="text-3xl font-extrabold text-gray-800 mb-1">Dashboard</h1>
+        <p class="text-gray-400 mb-8">Here's an overview of your blog activity.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <div class="bg-white rounded-xl shadow-sm p-6 text-center">
+                <p class="text-4xl font-bold text-brand">{{ published_blogs_count }}</p>
+                <p class="text-sm text-gray-500 mt-2">Published Posts</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm p-6 text-center">
+                <p class="text-4xl font-bold text-brand">{{ draft_blogs_count }}</p>
+                <p class="text-sm text-gray-500 mt-2">Drafts</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm p-6 text-center">
+                <p class="text-4xl font-bold text-brand">{{ category_count }}</p>
+                <p class="text-sm text-gray-500 mt-2">Categories</p>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm p-6">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">Recent Posts</h2>
+            <p class="text-sm text-gray-400">No posts yet. Create your first post!</p>
+        </div>
+     </div>
+</div>
+
+{% endblock %}

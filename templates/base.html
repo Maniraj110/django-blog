@@ -1,0 +1,73 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Site</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            DEFAULT: '#f59e0b',
+                            dark: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-Sapiente">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="px-6 py-4 flex items-center justify-between flex-wrap gap-4">
+            <a href="{% url 'home' %}" class="text-2xl font-extrabold text-brand tracking-tight hover:text-brand-dark transition">BlogSite</a>
+
+            <form class="flex items-center" action="{% url 'search' %}" method="GET">
+                <input type="text" name="keyword" placeholder="Search articles..."
+                       class="w-48 md:w-64 px-4 py-2 text-sm border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition">
+                <button type="submit"
+                        class="px-4 py-2 text-sm bg-brand text-white rounded-r-lg hover:bg-brand-dark transition font-medium">Search</button>
+            </form>
+
+            <nav class="flex items-center gap-3">
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'login' %}" class="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-100 transition">Login</a>
+                    <a href="{% url 'register' %}" class="px-4 py-2 text-sm font-medium text-white bg-brand rounded-lg hover:bg-brand-dark transition">Register</a>
+                {% else %}
+                    <a href="{% url 'dashboard' %}" class="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-100 transition">Dashboard</a>
+                    <a href="{% url 'logout' %}" class="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 transition">Logout</a>
+                {% endif %}
+            </nav>
+        </div>
+
+        <!-- Category Nav -->
+        <div class="border-t border-gray-100">
+            <div class="px-6 py-4 flex items-center justify-between gap-6 overflow-x-auto">
+                {% for category in categories %}
+                <a href="{% url 'post_by_category' category.id %}"
+                   class="text-sm font-medium text-gray-500 hover:text-brand whitespace-nowrap transition">{{ category.category_name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 text-center py-8 mt-12">
+        <p class="text-sm">&copy; 2026 Blogsite. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

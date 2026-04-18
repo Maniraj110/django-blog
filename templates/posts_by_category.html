@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="max-w-7xl mx-auto px-6 py-12">
+    <h2 class="text-2xl font-bold text-gray-800 mb-8 border-l-4 border-brand pl-4">Category &mdash; {{ category }}</h2>
+
+    {% if blogs %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for featured_blog in blogs %}
+        <article class="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group">
+            {% if featured_blog.featured_image %}
+            <img src="{{ featured_blog.featured_image.url }}" alt="{{ featured_blog.title }}"
+                 class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+            {% endif %}
+            <div class="p-5">
+                <a href="{% url 'blogs' featured_blog.slug %}" class="text-lg font-bold text-gray-800 hover:text-brand transition">{{ featured_blog.title }}</a>
+                <p class="text-xs text-gray-400 mt-2">{{ featured_blog.created_at|timesince }} ago &middot; {{ featured_blog.author }}</p>
+                <p class="text-sm text-gray-600 mt-3 leading-relaxed">{{ featured_blog.short_description|truncatewords:20 }}</p>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-20">
+        <p class="text-gray-400 text-lg">No posts found in this category.</p>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

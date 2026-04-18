@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <!-- Hero Section -->
+    {% for featured_blog in featured_blogs %}
+    {% if forloop.first %}
+    <section class="relative h-[400px] flex items-center justify-center overflow-hidden">
+        <img src="{{ featured_blog.featured_image.url }}" alt="{{ featured_blog.title }}"
+             class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/20"></div>
+        <div class="relative z-10 text-center max-w-2xl px-6">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight">{{ featured_blog.title }}</h1>
+            <p class="text-lg text-gray-200 mb-6">{{ featured_blog.short_description | truncatewords:20 }}</p>
+            <a href="{% url 'blogs' featured_blog.slug %}"
+               class="inline-block px-6 py-3 bg-brand text-white font-semibold rounded-lg hover:bg-brand-dark transition shadow-lg">Continue reading &rarr;</a>
+        </div>
+    </section>
+    {% endif %}
+    {% endfor %}
+
+    <!-- Featured Blogs -->
+    <section class="max-w-7xl mx-auto px-6 py-12">
+        <h2 class="text-2xl font-bold text-gray-800 mb-8 border-l-4 border-brand pl-4">Featured Blogs</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for featured_blog in featured_blogs %}
+            {% if not forloop.first %}
+            <article class="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group">
+                {% if featured_blog.featured_image %}
+                <img src="{{ featured_blog.featured_image.url }}" alt="{{ featured_blog.title }}"
+                     class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                {% endif %}
+                <div class="p-5">
+                    <a href="{% url 'blogs' featured_blog.slug %}" class="text-lg font-bold text-gray-800 hover:text-brand transition">{{ featured_blog.title }}</a>
+                    <p class="text-xs text-gray-400 mt-2">{{ featured_blog.created_at|timesince }} ago &middot; {{ featured_blog.author }}</p>
+                    <p class="text-sm text-gray-600 mt-3 leading-relaxed">{{ featured_blog.short_description|truncatewords:20 }}</p>
+                </div>
+            </article>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- All Blogs -->
+    <section class="max-w-7xl mx-auto px-6 pb-12">
+        <h2 class="text-2xl font-bold text-gray-800 mb-8 border-l-4 border-brand pl-4">All Blogs</h2>
+        <div class="flex flex-col lg:flex-row gap-8">
+
+            <!-- Blog List -->
+            <div class="flex-1 space-y-6">
+                {% for blog in blogs %}
+                {% if not forloop.first %}
+                <article class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 p-6">
+                    <a href="{% url 'blogs' blog.slug %}" class="text-xl font-bold text-gray-800 hover:text-brand transition">{{ blog.title }}</a>
+                    <p class="text-xs text-gray-400 mt-2">{{ blog.created_at|timesince }} ago &middot; {{ blog.author }}</p>
+                    <p class="text-sm text-gray-600 mt-3 leading-relaxed">{{ blog.blog_body|truncatewords:25 }}</p>
+                </article>
+                {% endif %}
+                {% endfor %}
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="w-full lg:w-72 shrink-0">
+                <div class="bg-white rounded-xl shadow-sm p-6 sticky top-32">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Author</h3>
+                    <ul class="space-y-3 text-sm text-gray-500">
+                        <li class="hover:text-brand transition cursor-pointer">About</li>
+                        <li class="hover:text-brand transition cursor-pointer">Education</li>
+                        <li class="hover:text-brand transition cursor-pointer">Blogs published</li>
+                        <li class="hover:text-brand transition cursor-pointer">Contact</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+{% endblock %}
