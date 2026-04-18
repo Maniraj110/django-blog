@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="flex min-h-[calc(100vh-180px)]">
+        {% include 'dashboard/side-bar.html' %}
+        <div class="flex-1 bg-gray-50 p-8 overflow-y-auto">
+            <h1 class="text-3xl font-extrabold text-gray-800 mb-8">Add Post</h1>
+            <form method="post" action="{% url 'add_post' %}" enctype="multipart/form-data" class="bg-white rounded-xl shadow-sm p-6">
+                {% csrf_token %}
+                
+                <!-- Title Field -->
+                <div class="mb-6">
+                    <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.title.label }}</label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                        <div class="text-red-500 text-sm mt-1">{{ form.title.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Short Description Field -->
+                <div class="mb-6">
+                    <label for="{{ form.short_description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.short_description.label }}</label>
+                    {{ form.short_description }}
+                    {% if form.short_description.errors %}
+                        <div class="text-red-500 text-sm mt-1">{{ form.short_description.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Blog Body Field -->
+                <div class="mb-6">
+                    <label for="{{ form.blog_body.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.blog_body.label }}</label>
+                    {{ form.blog_body }}
+                    {% if form.blog_body.errors %}
+                        <div class="text-red-500 text-sm mt-1">{{ form.blog_body.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Category Field -->
+                <div class="mb-6 grid grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.category.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.category.label }}</label>
+                        {{ form.category }}
+                        {% if form.category.errors %}
+                            <div class="text-red-500 text-sm mt-1">{{ form.category.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Status Field -->
+                    <div>
+                        <label for="{{ form.status.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.status.label }}</label>
+                        {{ form.status }}
+                        {% if form.status.errors %}
+                            <div class="text-red-500 text-sm mt-1">{{ form.status.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Featured Image Field -->
+                <div class="mb-6">
+                    <label for="{{ form.featured_image.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.featured_image.label }}</label>
+                    {{ form.featured_image }}
+                    {% if form.featured_image.errors %}
+                        <div class="text-red-500 text-sm mt-1">{{ form.featured_image.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Is Featured Checkbox -->
+                <div class="mb-8 flex items-center">
+                    {{ form.is_featured }}
+                    <label for="{{ form.is_featured.id_for_label }}" class="ml-2 text-sm font-medium text-gray-700">{{ form.is_featured.label }}</label>
+                    {% if form.is_featured.errors %}
+                        <div class="text-red-500 text-sm mt-1">{{ form.is_featured.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Submit and Cancel Buttons -->
+                <div class="flex gap-4">
+                    <button type="submit" class="px-6 py-2 bg-brand text-white rounded-lg hover:bg-brand-dark transition font-medium">Add Post</button>
+                    <a href="{% url 'posts' %}" class="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition font-medium">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

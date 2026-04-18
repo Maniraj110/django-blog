@@ -8,8 +8,8 @@
             <form method="post" action="{% url 'add_category' %}" class="bg-white rounded-xl shadow-sm p-6">
                 {% csrf_token %}
                 <div class="mb-4">
-                    <label for="category_name" class="block text-sm font-medium text-gray-700">Category Name</label>
-                    <input type="text" id="category_name" name="category_name" class="mt-3 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-brand focus:border-brand">
+                    <label for="category_name" class="block text-sm font-medium text-gray-700 mb-3">Category Name</label>
+                    {{ form.category_name }}
                 </div>
                 <button type="submit" class="px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand-dark transition">Add Category</button>
             </form>
